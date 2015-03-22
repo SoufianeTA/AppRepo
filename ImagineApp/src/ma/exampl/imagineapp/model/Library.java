@@ -15,6 +15,7 @@ public class Library implements Serializable{
 	private String dateOfCreation;
 	private String language ;
 	private String description ;
+	private int direction ;
 	
 	public Library() {
 		super();
@@ -55,6 +56,12 @@ public class Library implements Serializable{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getDirection() {
+		return direction;
+	}
+	public void setDirection(int direction) {
+		this.direction = direction;
 	} 
 	
 	

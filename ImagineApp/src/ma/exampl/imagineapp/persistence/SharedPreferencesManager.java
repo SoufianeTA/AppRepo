@@ -1,5 +1,6 @@
 package ma.exampl.imagineapp.persistence;
 
+import ma.exampl.imagineapp.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -9,6 +10,7 @@ public class SharedPreferencesManager {
 	private static final String APP_SETTINGS = "APP_SETTINGS";
 
 	private static final String SELECTED_LIBRARY = "SELECTED_LIBRARY";
+	private static final String SELECTED_COLOR = "SELECTED_COLOR";
 	private static final String IMAGE_SIZE = "IMAGE_SIZE";
 
 	// ==================================================================================
@@ -33,6 +35,21 @@ public class SharedPreferencesManager {
 		final SharedPreferences.Editor editor = getSharedPreferences(context)
 				.edit();
 		editor.putInt(SELECTED_LIBRARY, newValue);
+		editor.commit();
+	}
+
+	// ==================================================================================
+
+	public static int getSelectedColorValue(Context context) {
+		return getSharedPreferences(context).getInt(SELECTED_COLOR, R.drawable.background);
+	}
+
+	// ==================================================================================
+
+	public static void setSelectedColorValue(Context context, int newValue) {
+		final SharedPreferences.Editor editor = getSharedPreferences(context)
+				.edit();
+		editor.putInt(SELECTED_COLOR, newValue);
 		editor.commit();
 	}
 

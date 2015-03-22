@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MainActivity_MainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
@@ -67,6 +68,18 @@
             android:layout_toLeftOf="@+id/Main_frameButtonStart"
             android:background="@drawable/buttons_sync"
             android:text="Select library"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/MainActivity_buttonSelectBgColor"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/buttons_sync"
+            android:layout_alignBottom="@+id/Main_frameButtonStart"
+            android:layout_marginRight="40dp"
+            android:layout_toLeftOf="@+id/MainActivity_buttonSelectLibrary"
+            android:text="Change color"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

@@ -45,7 +45,9 @@ public class SelectLibraryActivity extends Activity{
 			/* Dao lib */
 			libraryDao=new LibraryDAO(this);
 			
+			
 			libraries=(ArrayList<Library>) libraryDao.getAllLibraries();
+			Log.d("SFIAN", "ok - 1 ");
 			if(libraries.size()==0)
 				{
 				txtMessage=(TextView)findViewById(R.id.SelectLibrary_textMessage);
@@ -57,7 +59,7 @@ public class SelectLibraryActivity extends Activity{
 			else
 				{
 					
-					
+				
 		
 					
 					

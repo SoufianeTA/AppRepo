@@ -17,7 +17,7 @@ public class LibraryDAO {
 
 	private String[] allColumns = { "_id", "library_name",
 			"library_author_fullName", "date_of_Creation", "language",
-			"description" };
+			"description","direction" };
 
 	// ==================================================================================
 
@@ -64,7 +64,8 @@ public class LibraryDAO {
 		library.setDateOfCreation(cursor.getString(3));
 		library.setLanguage(cursor.getString(4));
 		library.setDescription(cursor.getString(5));
-
+		library.setDirection(cursor.getInt(6));
+		
 		return library;
 	}
 
@@ -84,6 +85,22 @@ public class LibraryDAO {
 		}
 
 	}
+	// ==================================================================================
+
+		public int getLibraryDirectionById(int id) {
+			Cursor cursor = null;
+			try {
+				cursor = database.query(DataBaseHelper.TABLE_LIBRARIES, new String[]{"direction"},
+						"_id=?", new String[] { String.valueOf(id) }, null, null,
+						null);
+				cursor.moveToFirst();
+				return cursor.getInt(0);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			}
+
+		}
 
 	// ==================================================================================
 
@@ -94,6 +111,7 @@ public class LibraryDAO {
 		row.put("dateOfCreation", library.getDateOfCreation());
 		row.put("language", library.getLanguage());
 		row.put("description", library.getDescription());
+		row.put("direction", library.getDirection());
 		database.insert(DataBaseHelper.TABLE_LIBRARIES, null, row);
 
 	}
