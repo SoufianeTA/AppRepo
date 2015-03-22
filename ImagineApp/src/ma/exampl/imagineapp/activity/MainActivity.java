@@ -43,6 +43,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private int selectedColorId;
 	private ArrayList<Colors> colors;
 
+	
 	// ================================================================================
 
 	@Override
