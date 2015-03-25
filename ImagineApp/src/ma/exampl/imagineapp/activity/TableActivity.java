@@ -13,9 +13,12 @@ import ma.exampl.imagineapp.dao.RessourceDAO;
 import ma.exampl.imagineapp.model.Category;
 import ma.exampl.imagineapp.model.Ressource;
 import ma.exampl.imagineapp.persistence.SharedPreferencesManager;
+import ma.exampl.imagineapp.util.BitmapUtil;
+import ma.exampl.imagineapp.util.ConverterUtil;
 import android.app.Activity;
 import android.content.ClipData;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -50,6 +53,8 @@ public class TableActivity extends Activity implements
 	private LayoutParams paramtableRowSentence;
 	private TableRow tableRowSentence;
 	private RelativeLayout mainLayout;
+	private Bitmap bitmapBackground;
+	private BitmapDrawable bitmapDrawableBackground;
 
 	private List<Category> categories;
 	private Category category;
@@ -83,7 +88,9 @@ public class TableActivity extends Activity implements
 
 		selectedLibraryId = SharedPreferencesManager
 				.getSelectedLibraryValue(this);
-		imageRessourceSize = SharedPreferencesManager.getImageSizeValue(this);
+//		imageRessourceSize = SharedPreferencesManager.getImageSizeValue(this);
+		imageRessourceSize = (int) ConverterUtil.convertDpToPixel(77, this);
+		
 		selectedColorId = SharedPreferencesManager.getSelectedColorValue(this);
 		 Log.d(LOG_TAG,String.valueOf(libraryDao.getLibraryDirectionById(selectedLibraryId)));
 		LangueDirection = libraryDao.getLibraryDirectionById(selectedLibraryId);
@@ -99,7 +106,7 @@ public class TableActivity extends Activity implements
 		}
 
 		/* set bg Color */
-		mainLayout.setBackgroundResource(selectedColorId);
+		setBackground();
 		
 		/* Layout ressources */
 		linearLayoutCategory = (LinearLayout) findViewById(R.id.TableActivity_LinearLayoutCategory);
@@ -473,6 +480,21 @@ public class TableActivity extends Activity implements
 		return false;
 	}
 
+	// ================================================================================
+		public void setBackground() {
+			bitmapBackground = BitmapUtil.decodeSampledBitmapFromResource(
+					getResources(), selectedColorId, 200, 200);
+			BitmapDrawable bm = new BitmapDrawable(
+					TableActivity.this.getResources(), bitmapBackground);
+			mainLayout.setBackgroundDrawable(bm);
+			// if(bitmapBackground!=null && !bitmapBackground.isRecycled()){
+			// bitmapBackground.recycle();
+			// bitmapBackground=null;
+			// bitmapDrawableBackground=null;
+			// }
+		}
+
+		// ================================================================================
 	// ==================================================================================
 
 }

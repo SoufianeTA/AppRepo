@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ma.exampl.imagineapp.R;
 import ma.exampl.imagineapp.persistence.SharedPreferencesManager;
+import ma.exampl.imagineapp.util.BitmapUtil;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +25,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 
 public class MainActivity extends Activity implements OnClickListener {
 	// ================================================================================
@@ -42,8 +47,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Dialog dialog;
 	private int selectedColorId;
 	private ArrayList<Colors> colors;
+	private Bitmap bitmapBackground;
+	private BitmapDrawable bitmapDrawableBackground;
 
-	
 	// ================================================================================
 
 	@Override
@@ -55,7 +61,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		selectedColorId = SharedPreferencesManager.getSelectedColorValue(this);
 
 		mainLayout = (RelativeLayout) findViewById(R.id.MainActivity_MainLayout);
-		mainLayout.setBackgroundResource(selectedColorId);
+
+		setBackground();
 
 		/* init colors */
 		colors = new ArrayList<Colors>();
@@ -111,8 +118,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				DataListAdapter color = (DataListAdapter) l1.getAdapter();
 				SharedPreferencesManager.setSelectedColorValue(
 						MainActivity.this, color.getColorsID(position));
-				mainLayout.setBackgroundResource(SharedPreferencesManager
-						.getSelectedColorValue(MainActivity.this));
+				selectedColorId=color.getColorsID(position);
+				setBackground();
 				dialog.dismiss();
 
 			}
@@ -256,7 +263,20 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 	}
+
 	// ================================================================================
+	public void setBackground() {
+		bitmapBackground = BitmapUtil.decodeSampledBitmapFromResource(
+				getResources(), selectedColorId, 200, 200);
+		BitmapDrawable bm = new BitmapDrawable(
+				MainActivity.this.getResources(), bitmapBackground);
+		mainLayout.setBackgroundDrawable(bm);
+		// if(bitmapBackground!=null && !bitmapBackground.isRecycled()){
+		// bitmapBackground.recycle();
+		// bitmapBackground=null;
+		// bitmapDrawableBackground=null;
+		// }
+	}
 
 	// ================================================================================
 
