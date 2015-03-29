@@ -3,14 +3,17 @@
     package="ma.exampl.imagineapp"
     android:versionCode="1"
     android:versionName="1.0" >
-
+<uses-feature android:name="android.hardware.camera"
+                  android:required="false" />
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
-
+    
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
+</uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <instrumentation android:name="android.test.InstrumentationTestRunner"
     android:targetPackage="ma.exampl.imagineapp"
     android:label="application test " />
@@ -36,6 +39,11 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
+            android:name="ma.exampl.imagineapp.activity.DownloadActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
             android:name="ma.exampl.imagineapp.activity.Test"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
@@ -56,13 +64,9 @@
             android:label="@string/app_name" 
             android:screenOrientation="landscape">
             
-            
-            
         </activity>
         
-       
         
     </application>
 
 </manifest>
-

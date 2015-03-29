@@ -23,6 +23,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
+
+
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+
+import ma.exampl.imagineapp.R;
+import ma.exampl.imagineapp.persistence.SharedPreferencesManager;
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
+
 public class SelectBgColorActivity extends Activity {
 	// ================================================================================
 

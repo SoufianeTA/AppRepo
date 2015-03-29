@@ -1,3 +1,4 @@
+
 package ma.exampl.imagineapp.persistence;
 
 import ma.exampl.imagineapp.R;
@@ -12,6 +13,7 @@ public class SharedPreferencesManager {
 	private static final String SELECTED_LIBRARY = "SELECTED_LIBRARY";
 	private static final String SELECTED_COLOR = "SELECTED_COLOR";
 	private static final String IMAGE_SIZE = "IMAGE_SIZE";
+	private static final String SELECTED_LIBRARY_TOADD = "SELECTED_LIBRARY_TOADD";
 
 	// ==================================================================================
 	private SharedPreferencesManager() {
@@ -67,6 +69,21 @@ public class SharedPreferencesManager {
 		editor.putInt(IMAGE_SIZE, newValue);
 		editor.commit();
 	}
+	
+	// ==================================================================================
+
+		public static int Selected_library_toAdd_Value(Context context) {
+			return getSharedPreferences(context).getInt(SELECTED_LIBRARY_TOADD, 0);
+		}
+
+		// ==================================================================================
+
+		public static void Selected_library_toAdd_Value(Context context, int newValue) {
+			final SharedPreferences.Editor editor = getSharedPreferences(context)
+					.edit();
+			editor.putInt(SELECTED_LIBRARY_TOADD, newValue);
+			editor.commit();
+		}
 	// ==================================================================================
 	// ==================================================================================
 	// ==================================================================================

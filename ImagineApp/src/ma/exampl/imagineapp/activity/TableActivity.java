@@ -1,4 +1,6 @@
+
 package ma.exampl.imagineapp.activity;
+
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -498,3 +500,4 @@ public class TableActivity extends Activity implements
 	// ==================================================================================
 
 }
+

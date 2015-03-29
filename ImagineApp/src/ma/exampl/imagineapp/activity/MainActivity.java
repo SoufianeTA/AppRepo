@@ -1,4 +1,6 @@
+
 package ma.exampl.imagineapp.activity;
+
 
 import java.util.ArrayList;
 
@@ -38,6 +40,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private Button bSelectLibrary;
 	private Button bSelectColor;
 	private Button bAbout;
+	private Button bAddLibrary;
 	private ImageView backgroundbuttonStart;
 	private Animation animat;
 	private LinearLayout layoutLogo;
@@ -99,6 +102,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		bSelectColor = (Button) findViewById(R.id.MainActivity_buttonSelectBgColor);
 		bSelectColor.setOnClickListener(this);
 		bSelectColor.setAnimation(animat);
+		
+		bAddLibrary = (Button) findViewById(R.id.MainActivity_addLibrary);
+		bAddLibrary.setOnClickListener(this);
+		bAddLibrary.setAnimation(animat);
 
 		animat = AnimationUtils.loadAnimation(this,
 				R.anim.animation_main_logo_show);
@@ -118,7 +125,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				DataListAdapter color = (DataListAdapter) l1.getAdapter();
 				SharedPreferencesManager.setSelectedColorValue(
 						MainActivity.this, color.getColorsID(position));
-				selectedColorId=color.getColorsID(position);
+				selectedColorId = color.getColorsID(position);
 				setBackground();
 				dialog.dismiss();
 
@@ -134,6 +141,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+
+		case R.id.MainActivity_addLibrary:
+
+//			startActivity(new Intent(MainActivity.this,
+//					AddLibraryActivity.class));
+
+			break;
 
 		case R.id.Main_ButtonStart:
 			startActivity(new Intent(MainActivity.this, TableActivity.class));
@@ -155,6 +169,8 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.MainActivity_buttonAbout:
+
+			startActivity(new Intent(MainActivity.this, DownloadActivity.class));
 
 			break;
 

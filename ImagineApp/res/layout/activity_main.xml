@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" >
+        android:layout_alignParentLeft="true" >
 
         <FrameLayout
             android:id="@+id/Main_frameButtonStart"
@@ -71,14 +71,15 @@
             android:textColor="@color/white"
             android:textSize="12sp" />
 
+
         <Button
             android:id="@+id/MainActivity_buttonSelectBgColor"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/buttons_sync"
             android:layout_alignBottom="@+id/Main_frameButtonStart"
             android:layout_marginRight="40dp"
             android:layout_toLeftOf="@+id/MainActivity_buttonSelectLibrary"
+            android:background="@drawable/buttons_sync"
             android:text="Change color"
             android:textColor="@color/white"
             android:textSize="12sp" />
@@ -92,6 +93,18 @@
             android:layout_toRightOf="@+id/Main_frameButtonStart"
             android:background="@drawable/buttons_sync"
             android:text="About"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/MainActivity_addLibrary"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@+id/MainActivity_buttonAbout"
+            android:background="@drawable/buttons_sync"
+            android:text="AddLibirary"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

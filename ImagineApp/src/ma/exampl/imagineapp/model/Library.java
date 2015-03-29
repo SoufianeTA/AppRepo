@@ -1,3 +1,4 @@
+
 package ma.exampl.imagineapp.model;
 
 import java.io.Serializable;
