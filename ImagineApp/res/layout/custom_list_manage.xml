@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/imageLine"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="7dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/checked" />
+
+    <TextView
+        android:id="@+id/nomLib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imageLine"
+        android:text="Nom Lib"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/autorLib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nomLib"
+        android:layout_below="@+id/nomLib"
+        android:text="Autor : " />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_alignRight="@+id/autorLib"
+        android:layout_below="@+id/autorLib"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/langage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nomLib"
+        android:layout_alignBottom="@+id/nomLib"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/nomLib"
+        android:text="( Langage )"
+        android:textColor="#fe5a00" />
+
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageLine"
+        android:text="Delete" />
+
+    <Button
+        android:id="@+id/buttonModify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageLine"
+        android:layout_toLeftOf="@+id/buttonDelete"
+        android:text="Modify" />
+
+</RelativeLayout>
