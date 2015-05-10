@@ -103,7 +103,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		bSelectColor.setOnClickListener(this);
 		bSelectColor.setAnimation(animat);
 		
-		bAddLibrary = (Button) findViewById(R.id.MainActivity_addLibrary);
+		bAddLibrary = (Button) findViewById(R.id.MainActivity_CustomizeLibrary);
 		bAddLibrary.setOnClickListener(this);
 		bAddLibrary.setAnimation(animat);
 
@@ -142,10 +142,10 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		switch (v.getId()) {
 
-		case R.id.MainActivity_addLibrary:
+		case R.id.MainActivity_CustomizeLibrary:
 
-//			startActivity(new Intent(MainActivity.this,
-//					AddLibraryActivity.class));
+			startActivity(new Intent(MainActivity.this,
+					CustomizeLibraryActivity.class));
 
 			break;
 

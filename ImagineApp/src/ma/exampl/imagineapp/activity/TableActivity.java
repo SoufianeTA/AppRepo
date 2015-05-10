@@ -1,6 +1,4 @@
-
 package ma.exampl.imagineapp.activity;
-
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -32,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,10 +52,12 @@ public class TableActivity extends Activity implements
 	private TableLayout tableLayoutRessources;
 	private LayoutParams paramButtonCategories;
 	private LayoutParams paramtableRowSentence;
+	private LayoutParams paramCategoryFrame;
 	private TableRow tableRowSentence;
 	private RelativeLayout mainLayout;
 	private Bitmap bitmapBackground;
 	private BitmapDrawable bitmapDrawableBackground;
+	private FrameLayout frameLayoutCategory;
 
 	private List<Category> categories;
 	private Category category;
@@ -74,7 +75,7 @@ public class TableActivity extends Activity implements
 	private CategoryDAO categotyDao;
 	private RessourceDAO ressourceDao;
 	private LibraryDAO libraryDao;
-	
+
 	// ==================================================================================
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,24 +85,26 @@ public class TableActivity extends Activity implements
 		/* instantiate DAO */
 		categotyDao = new CategoryDAO(this);
 		ressourceDao = new RessourceDAO(this);
-		libraryDao=new LibraryDAO(this);
-		
+		libraryDao = new LibraryDAO(this);
+
 		/* get selected library id FROM shared preferences + other sharedPref */
 
 		selectedLibraryId = SharedPreferencesManager
 				.getSelectedLibraryValue(this);
-//		imageRessourceSize = SharedPreferencesManager.getImageSizeValue(this);
-		imageRessourceSize = (int) ConverterUtil.convertDpToPixel(77, this);
-		
+		// imageRessourceSize =
+		// SharedPreferencesManager.getImageSizeValue(this);
+		imageRessourceSize = (int) ConverterUtil.convertDpToPixel(100, this);
+
 		selectedColorId = SharedPreferencesManager.getSelectedColorValue(this);
-		 Log.d(LOG_TAG,String.valueOf(libraryDao.getLibraryDirectionById(selectedLibraryId)));
+		Log.d(LOG_TAG, String.valueOf(libraryDao
+				.getLibraryDirectionById(selectedLibraryId)));
 		LangueDirection = libraryDao.getLibraryDirectionById(selectedLibraryId);
 
 		/* set layout */
 		if (LangueDirection == 1) {
 			setContentView(R.layout.activity_table_left);
 			mainLayout = (RelativeLayout) findViewById(R.id.TableActivity_MainLayoutLeft);
-			
+
 		} else {
 			setContentView(R.layout.activity_table);
 			mainLayout = (RelativeLayout) findViewById(R.id.TableActivity_MainLayout);
@@ -109,15 +112,17 @@ public class TableActivity extends Activity implements
 
 		/* set bg Color */
 		setBackground();
-		
+
 		/* Layout ressources */
 		linearLayoutCategory = (LinearLayout) findViewById(R.id.TableActivity_LinearLayoutCategory);
 		tableLayoutRessources = (TableLayout) findViewById(R.id.TableActivity_TableLayoutRessources);
 		tableRowSentence = (TableRow) findViewById(R.id.TableActivity_TableRowSentence);
+
 		if (LangueDirection == 1)
 			tableRowSentence.setGravity(Gravity.RIGHT);
-		buttonCategoryBack = (Button) findViewById(R.id.TableActivity_buttonCategoryBack);
-		buttonCategoryBack.setOnClickListener(this);
+		// buttonCategoryBack = (Button)
+		// findViewById(R.id.TableActivity_buttonCategoryBack);
+		// buttonCategoryBack.setOnClickListener(this);
 		buttonRemoveLastElement = (Button) findViewById(R.id.TableActivity_ButtonRemoveLastElement);
 		buttonRemoveLastElement.setOnClickListener(this);
 		buttonReadSentence = (Button) findViewById(R.id.TableActivity_ButtonRead);
@@ -129,11 +134,12 @@ public class TableActivity extends Activity implements
 
 		/* Layout params */
 		paramButtonCategories = new LayoutParams(LayoutParams.MATCH_PARENT, 140);
+		paramCategoryFrame = new LayoutParams(imageRessourceSize,
+				imageRessourceSize);
 
 		/* nember of Elements in one Tablerow */
 		nbrElementsByLine = this.getResources().getDisplayMetrics().widthPixels
 				/ imageRessourceSize;
-
 
 		/* get the default category using library id */
 		category = categotyDao.getDefaultCategoryByIdLibrary(selectedLibraryId);
@@ -182,6 +188,11 @@ public class TableActivity extends Activity implements
 		/* get categories */
 		categories = categotyDao.getCategoriesByCategoryId(category.getId());
 
+		/* add return button if not the default category */
+		if (!category.getCategoryName().equals("Default")) {
+			categories.add(0, new Category());
+		}
+
 		// -------------- Test ----------------
 		// for (Iterator iterator = categories.iterator(); iterator.hasNext();)
 		// {
@@ -189,20 +200,6 @@ public class TableActivity extends Activity implements
 		// Log.d(LOG_TAG, category.getId()+" - "+category.getCategoryName());
 		// }
 		// ------------ Test END --------------
-
-		/* fill the category scrollview */
-		for (Iterator iterator = categories.iterator(); iterator.hasNext();) {
-			Category category = (Category) iterator.next();
-
-			buttonCategorie = new Button(this);
-			buttonCategorie.setText(category.getCategoryName());
-			// buttonCategorie.setBackgroundResource(R.drawable.button_menu);
-			linearLayoutCategory
-					.addView(buttonCategorie, paramButtonCategories);
-
-			buttonCategorie.setOnClickListener(getOnClickChooseCategory(
-					buttonCategorie, category.getId()));
-		}
 
 		/* Load the ressources */
 		listeRessources = ressourceDao.getRessourcesByCategoryId(category
@@ -215,7 +212,7 @@ public class TableActivity extends Activity implements
 		/* fill TableLayout with ressources */
 
 		int i = 0; // iterator
-		while (i < listeRessources.size()) {
+		while (i < listeRessources.size() + categories.size()) {
 
 			/* instantiate new TableRow */
 			TableRow oneTableRow = new TableRow(this);
@@ -223,57 +220,104 @@ public class TableActivity extends Activity implements
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
 			int j = 0; // iterator
-			while (j < nbrElementsByLine && i < listeRessources.size()) {
+			while (j < nbrElementsByLine
+					&& i < listeRessources.size() + categories.size()) {
 
-				Ressource ressource = listeRessources.get(i);
+				if (i < categories.size()) {
 
-				/* instansiate imageView that represent a ressource */
-				ImageView imageView = new ImageView(this);
-				imageView.setTag(i);
-				Bitmap resizedbitmap = Bitmap.createScaledBitmap(
-						ressource.getBitmapImage(), imageRessourceSize,
-						imageRessourceSize, true);
-				imageView.setImageBitmap(resizedbitmap);
-				imageView.setOnLongClickListener(TableActivity.this);
+					if (!category.getCategoryName().equals("Default") && i == 0) {
 
-				// -------------- Test ----------------
-				// Log.d(LOG_TAG, String.valueOf(i));
-				// Log.d(LOG_TAG,
-				// String.valueOf(ressource.getId())+" - "+ressource.getRessouceName());
-				// ------------ Test END --------------
+						ImageView imageView = new ImageView(this);
+						imageView.setImageResource(R.drawable.back_to_category);
+						imageView.setOnClickListener(new OnClickListener() {
 
-				/* Load the sound of the ressource */
-				final MediaPlayer mediaPlayer = new MediaPlayer();
-				try {
-					FileInputStream fileInputStream = ressource
-							.getSoundStream(this);
-					mediaPlayer.setDataSource(fileInputStream.getFD());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+							@Override
+							public void onClick(View v) {
+								categoryHistoryIndex--;
+								selectCategory(categoryHistory[categoryHistoryIndex]);
+							}
+						});
 
-				/* Play sound Onclick Imageview */
-				imageView.setOnClickListener(new OnClickListener() {
+						FrameLayout frameLayoutCategory = new FrameLayout(this);
+						frameLayoutCategory.addView(imageView,
+								paramCategoryFrame);
 
-					@Override
-					public void onClick(View v) {
-						try {
-							mediaPlayer.prepare();
-						} catch (IllegalStateException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						mediaPlayer.start();
+						oneTableRow.addView(frameLayoutCategory);
 
+					} else {
+
+						Log.d(LOG_TAG, "ok");
+						Category category = categories.get(i);
+						FrameLayout frameLayoutCategory = new FrameLayout(this);
+						ImageView imageView = new ImageView(this);
+						Bitmap resizedbitmap = Bitmap.createScaledBitmap(
+								category.getBitmapImage(), imageRessourceSize,
+								imageRessourceSize, true);
+						imageView.setImageBitmap(resizedbitmap);
+						frameLayoutCategory.addView(imageView);
+
+						imageView = new ImageView(this);
+						imageView.setImageResource(R.drawable.folder_category);
+						imageView.setOnClickListener(getOnClickChooseCategory(
+								buttonCategorie, category.getId()));
+						frameLayoutCategory.addView(imageView,
+								paramCategoryFrame);
+
+						oneTableRow.addView(frameLayoutCategory);
 					}
-				});
+				} else {
+					Ressource ressource = listeRessources.get(i
+							- categories.size());
 
-				/* add imageView to the TableRow */
-				oneTableRow.addView(imageView);
+					/* instansiate imageView that represent a ressource */
+					ImageView imageView = new ImageView(this);
+					imageView.setTag(i - categories.size());
+					Bitmap resizedbitmap = Bitmap.createScaledBitmap(
+							ressource.getBitmapImage(), imageRessourceSize,
+							imageRessourceSize, true);
+					imageView.setImageBitmap(resizedbitmap);
+					imageView.setOnLongClickListener(TableActivity.this);
+
+					// -------------- Test ----------------
+					// Log.d(LOG_TAG, String.valueOf(i));
+					// Log.d(LOG_TAG,
+					// String.valueOf(ressource.getId())+" - "+ressource.getRessouceName());
+					// ------------ Test END --------------
+
+					/* Load the sound of the ressource */
+					final MediaPlayer mediaPlayer = new MediaPlayer();
+					try {
+						FileInputStream fileInputStream = ressource
+								.getSoundStream(this);
+						mediaPlayer.setDataSource(fileInputStream.getFD());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					/* Play sound Onclick Imageview */
+					imageView.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							try {
+								mediaPlayer.prepare();
+							} catch (IllegalStateException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							mediaPlayer.start();
+
+						}
+					});
+
+					/* add imageView to the TableRow */
+					oneTableRow.addView(imageView);
+
+				}
 
 				/* increment */
 				j++;
@@ -375,16 +419,16 @@ public class TableActivity extends Activity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.TableActivity_buttonCategoryBack:
-
-			if (categoryHistoryIndex - 1 <= -1)
-				break;
-			categoryHistoryIndex--;
-			selectCategory(categoryHistory[categoryHistoryIndex]);
-
-			// Log.d(LOG_TAG, String.valueOf(categoryHistoryIndex)+" - "
-			// +String.valueOf(categoryHistory[categoryHistoryIndex]));
-			break;
+		// case R.id.TableActivity_buttonCategoryBack:
+		//
+		// if (categoryHistoryIndex - 1 <= -1)
+		// break;
+		// categoryHistoryIndex--;
+		// selectCategory(categoryHistory[categoryHistoryIndex]);
+		//
+		// // Log.d(LOG_TAG, String.valueOf(categoryHistoryIndex)+" - "
+		// // +String.valueOf(categoryHistory[categoryHistoryIndex]));
+		// break;
 
 		case R.id.TableActivity_ButtonRemoveLastElement:
 
@@ -483,21 +527,20 @@ public class TableActivity extends Activity implements
 	}
 
 	// ================================================================================
-		public void setBackground() {
-			bitmapBackground = BitmapUtil.decodeSampledBitmapFromResource(
-					getResources(), selectedColorId, 200, 200);
-			BitmapDrawable bm = new BitmapDrawable(
-					TableActivity.this.getResources(), bitmapBackground);
-			mainLayout.setBackgroundDrawable(bm);
-			// if(bitmapBackground!=null && !bitmapBackground.isRecycled()){
-			// bitmapBackground.recycle();
-			// bitmapBackground=null;
-			// bitmapDrawableBackground=null;
-			// }
-		}
+	public void setBackground() {
+		bitmapBackground = BitmapUtil.decodeSampledBitmapFromResource(
+				getResources(), selectedColorId, 200, 200);
+		BitmapDrawable bm = new BitmapDrawable(
+				TableActivity.this.getResources(), bitmapBackground);
+		mainLayout.setBackgroundDrawable(bm);
+		// if(bitmapBackground!=null && !bitmapBackground.isRecycled()){
+		// bitmapBackground.recycle();
+		// bitmapBackground=null;
+		// bitmapDrawableBackground=null;
+		// }
+	}
 
-		// ================================================================================
+	// ================================================================================
 	// ==================================================================================
 
 }
-

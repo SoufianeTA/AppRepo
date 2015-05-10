@@ -1,4 +1,3 @@
-
 package ma.exampl.imagineapp.dao;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class LibraryDAO {
 
 	private String[] allColumns = { "_id", "library_name",
 			"library_author_fullName", "date_of_Creation", "language",
-			"description","direction" };
+			"description", "direction" };
 
 	// ==================================================================================
 
@@ -66,7 +65,7 @@ public class LibraryDAO {
 		library.setLanguage(cursor.getString(4));
 		library.setDescription(cursor.getString(5));
 		library.setDirection(cursor.getInt(6));
-		
+
 		return library;
 	}
 
@@ -86,30 +85,45 @@ public class LibraryDAO {
 		}
 
 	}
+
 	// ==================================================================================
 
-		public int getLibraryDirectionById(int id) {
-			Cursor cursor = null;
-			try {
-				cursor = database.query(DataBaseHelper.TABLE_LIBRARIES, new String[]{"direction"},
-						"_id=?", new String[] { String.valueOf(id) }, null, null,
-						null);
-				cursor.moveToFirst();
-				return cursor.getInt(0);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return 0;
-			}
+	public int getLibraryDirectionById(int id) {
+		Cursor cursor = null;
+		try {
+			cursor = database.query(DataBaseHelper.TABLE_LIBRARIES,
+					new String[] { "direction" }, "_id=?",
+					new String[] { String.valueOf(id) }, null, null, null);
+			cursor.moveToFirst();
+			return cursor.getInt(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+
+	}
+
+	// ==================================================================================
+
+	public void deleteLibrary(int id) {
+		try {
+			database.delete(DataBaseHelper.TABLE_LIBRARIES, "_id=?",
+					new String[] { String.valueOf(id) });
+
+		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
+
+	}
 
 	// ==================================================================================
 
 	public void addLibrary(Library library) {
 		ContentValues row = new ContentValues();
-		row.put("libraryName", library.getLibraryName());
-		row.put("libraryAuthorFullName", library.getLibraryAuthorFullName());
-		row.put("dateOfCreation", library.getDateOfCreation());
+		row.put("library_name", library.getLibraryName());
+		row.put("library_author_fullName", library.getLibraryAuthorFullName());
+		row.put("date_of_Creation", library.getDateOfCreation());
 		row.put("language", library.getLanguage());
 		row.put("description", library.getDescription());
 		row.put("direction", library.getDirection());

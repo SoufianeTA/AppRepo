@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ma.exampl.imagineapp.model.Category;
+import ma.exampl.imagineapp.model.Library;
 import ma.exampl.imagineapp.persistence.DataBaseHelper;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -98,16 +100,27 @@ public class CategoryDAO {
 		// make sure to close the cursor
 
 	}
+	// ==================================================================================
 
+		public void deleteCategory(int id) {
+			try {
+				database.delete(DataBaseHelper.TABLE_CATEGORIES, "_id=?",
+						new String[] { String.valueOf(id) });
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+
+		}
 	// ==================================================================================
 	public Category getCategoryById(int id) {
 		Cursor cursor;
 		List<Category> categories = new ArrayList<Category>();
 		try {
 			cursor = database.query(DataBaseHelper.TABLE_CATEGORIES,
-					allColumns, "_id=? ",
-					new String[] { String.valueOf(id)}, null, null,
-					null);
+					allColumns, "_id=? ", new String[] { String.valueOf(id) },
+					null, null, null);
 
 			cursor.moveToFirst();
 
@@ -129,6 +142,42 @@ public class CategoryDAO {
 		// make sure to close the cursor
 
 	}
+
+	// ==================================================================================
+	public void addCategorie(Category category, Library library) {
+		ContentValues row = new ContentValues();
+		row.put("category_name", category.getCategoryName());
+		row.put("category_image", category.getCategoryImage());
+		row.put("library_id", library.getId());
+		database.insert(DataBaseHelper.TABLE_CATEGORIES, null, row);
+	}
+
 	// ==================================================================================
 
+	public List<Category> getAllCategories(int id) {
+
+		List<Category> categories = new ArrayList<Category>();
+		System.out.println(database.isOpen());
+		Cursor cursor = null;
+		try {
+			cursor = database.query(DataBaseHelper.TABLE_CATEGORIES,
+					allColumns, "library_id=? ", new String[] { String.valueOf(id) },
+					null, null, null);
+
+			// System.out.println("it should be after this");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Category category = cursorToCategory(cursor);
+			categories.add(category);
+			cursor.moveToNext();
+		}
+
+		// make sure to close the cursor
+		cursor.close();
+		return categories;
+	}
+	// ==================================================================================
 }

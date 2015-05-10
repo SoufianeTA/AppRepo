@@ -6,20 +6,21 @@
     android:background="@drawable/background"
     android:gravity="center_horizontal" >
 
-    <Button
-        android:id="@+id/TableActivity_buttonCategoryBack"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/category_back" />
+<!--     <Button -->
+<!--         android:id="@+id/TableActivity_buttonCategoryBack" -->
+<!--         style="?android:attr/buttonStyleSmall" -->
+<!--         android:layout_width="50dp" -->
+<!--         android:layout_height="50dp" -->
+<!--         android:layout_alignParentLeft="true" -->
+<!--         android:layout_alignParentTop="true" -->
+<!--         android:background="@drawable/category_back" /> -->
 
     <HorizontalScrollView
         android:id="@+id/TableActivity_ScrollViewCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/TableActivity_buttonCategoryBack" >
 
         <LinearLayout
@@ -56,20 +57,20 @@
 
         <Button
             android:id="@+id/TableActivity_ButtonRemoveLastElement"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:background="@drawable/delete_element" />
 
         <Button
             android:id="@+id/TableActivity_ButtonRead"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:background="@drawable/speaker" />
 
         <TableLayout
             android:id="@+id/TableActivity_TableLayoutSentence"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="90dp"
             android:layout_weight="1" >
 
             <TableRow

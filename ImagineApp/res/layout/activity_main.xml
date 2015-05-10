@@ -97,14 +97,14 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/MainActivity_addLibrary"
+            android:id="@+id/MainActivity_CustomizeLibrary"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"
+            android:layout_alignTop="@+id/MainActivity_buttonAbout"
             android:layout_marginLeft="40dp"
             android:layout_toRightOf="@+id/MainActivity_buttonAbout"
             android:background="@drawable/buttons_sync"
-            android:text="AddLibirary"
+            android:text="customize"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

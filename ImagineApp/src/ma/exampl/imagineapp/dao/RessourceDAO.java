@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import ma.exampl.imagineapp.model.Ressource;
 import ma.exampl.imagineapp.persistence.DataBaseHelper;
 import android.content.ContentValues;
@@ -74,7 +75,19 @@ public class RessourceDAO {
 		// make sure to close the cursor
 
 	}
+	// ==================================================================================
 
+		public void deleteRessource(int id) {
+			try {
+				database.delete(DataBaseHelper.TABLE_RESSOURCES, "_id=?",
+						new String[] { String.valueOf(id) });
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			}
+
+		}
 	// ==================================================================================
 
 	public void addRessource(Ressource ressource) {
